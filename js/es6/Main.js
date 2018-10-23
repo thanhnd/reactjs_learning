@@ -31,10 +31,11 @@ clearForm = () => {
 
 let maxRow = 2
 let currentPage = 1
+let employees = company.employees
 
 displayListingPage = () => {
     
-    let total = company.employees.length;
+    let total = employees.length;
 
     let start = (currentPage - 1) * maxRow
     let end = currentPage * maxRow
@@ -56,7 +57,7 @@ displayList = (start, end) => {
 
     for(let i = start; i < end; i++) {
         tr = document.createElement("tr")
-        employee = company.employees[i]
+        employee = employees[i]
         tbody.appendChild(tr)
 
         console.log(employee.reference)
@@ -100,7 +101,7 @@ switchPage = (buttonId) => {
     document.getElementById(buttonId).addEventListener("click", () => {
         currentPage = buttonId.split("_")[1]
 
-        displayListingPage()
+        displayListingPage(employees)
     })
 }
 
@@ -110,6 +111,14 @@ document.getElementById("btnThem").addEventListener("click", () => {
     callModal("THÊM NGƯỜI DÙNG")
 
 })
+
+document.getElementById("searchName").addEventListener("keyup", () => {
+    
+    let keyword = document.getElementById("searchName").value
+    console.log(keyword)
+    employees = company.getEmployeesByName(keyword)
+    displayListingPage()
+}) 
 
 document.getElementById("btnThemNV").addEventListener("click", () => {
     // Validattion
